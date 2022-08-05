@@ -167,20 +167,6 @@ NSBundle *tweakBundle = uYouPlusBundle();
     return %orig;
 }
 %end
-
-%hook UIKBRenderConfig // Prediction text color
-- (void)setLightKeyboard:(BOOL)arg1 { %orig(NO); }
-%end
-%end
-
-%hook YTMainAppVideoPlayerOverlayView
-- (BOOL)isUserInteractionEnabled {
-    if([[self _viewControllerForAncestor].parentViewController.parentViewController isKindOfClass:%c(YTWatchMiniBarViewController)]) {
-        return NO;
-    }
-        return %orig;
-}
-%end
 %end
 
 // iOS 16 uYou crash fix - @level3tjg: https://github.com/qnblackcat/uYouPlus/pull/224
