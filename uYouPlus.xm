@@ -167,7 +167,6 @@ NSBundle *tweakBundle = uYouPlusBundle();
     return %orig;
 }
 %end
-%end
 
 // iOS 16 uYou crash fix - @level3tjg: https://github.com/qnblackcat/uYouPlus/pull/224
 %group iOS16
