@@ -41,17 +41,7 @@
 - (id)activeVideo;
 @end
 
-// BigYTMiniPlayer
-@interface YTMainAppVideoPlayerOverlayView : UIView
-- (UIViewController *)_viewControllerForAncestor;
-@end
-
 @interface YTWatchMiniBarView : UIView
-@end
-
-// YTAutoFullScreen
-@interface YTPlayerViewController (YTAFS)
-- (void)autoFullscreen;
 @end
 
 // OLED Darkmode
@@ -71,12 +61,6 @@
 @end
 
 @interface YTCommentDetailHeaderCell : UIView
-@end
-
-@interface SponsorBlockSettingsController : UITableViewController
-@end
-
-@interface SponsorBlockViewController : UIViewController
 @end
 
 @interface UICandidateViewController : UIViewController
