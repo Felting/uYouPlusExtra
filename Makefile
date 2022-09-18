@@ -6,6 +6,8 @@ MODULES = jailed
 FINALPACKAGE = 1
 CODESIGN_IPA = 0
 
+THEOS_DEVICE_IP = 0.0.0.0 -p 2222
+
 TWEAK_NAME = uYouPlus
 DISPLAY_NAME = YouTube
 BUNDLE_ID = com.google.ios.youtube
