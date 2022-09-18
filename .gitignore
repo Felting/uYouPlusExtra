@@ -1,6 +1,7 @@
 .theos
 .DS_Store
-packages
-obj
+packages/
+tmp/
 Tweaks/uYou/*
 !Tweaks/uYou/.gitkeep
+Resources/

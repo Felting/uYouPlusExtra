@@ -1,0 +1,143 @@
+# Original idea by @ISnackable. Thanks to him for handling the hardest parts!
+# https://github.com/ISnackable/CercubePlus/blob/main/.github/workflows/Build.yml
+
+name: Build and Release uYouPlus
+
+on:
+  workflow_dispatch:
+    inputs:
+      uyou_version:
+        description: "The version of uYou"
+        default: "2.1"
+        required: false
+        type: string
+      decrypted_youtube_url:
+        description: "The direct URL to the decrypted YouTube ipa"
+        default: ""
+        required: true
+        type: string
+      youtube_version:
+        description: "The version of YouTube"
+        default: ""
+        required: true
+        type: string
+      create_release:
+        description: "Create a draft release"
+        default: false
+        required: false
+        type: boolean
+  
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build uYouPlus
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v3
+        with:
+          path: main
+          submodules: recursive
+
+      - name: Install Dependencies
+        run: brew install ldid dpkg
+
+      - name: Setup Theos
+        uses: actions/checkout@v3
+        with:
+          repository: theos/theos
+          ref: master
+          path: theos
+          submodules: recursive
+
+      - name: Download iOS 15.5 SDK
+        run: |
+          svn checkout -q https://github.com/chrisharper22/sdks/trunk/iPhoneOS15.5.sdk
+          mv *.sdk $THEOS/sdks
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Setup Theos Jailed
+        uses: actions/checkout@v3
+        with:
+          repository: kabiroberai/theos-jailed
+          ref: master
+          path: theos-jailed
+          submodules: recursive
+
+      - name: Install Theos Jailed
+        run: |
+          ./theos-jailed/install
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Download uYou & prepare YouTube iPA
+        run: |
+          curl "https://raw.githubusercontent.com/Muirey03/RemoteLog/master/RemoteLog.h" --output "$THEOS/include/RemoteLog.h"
+          curl "https://miro92.com/repo/debs/com.miro.uyou_${{ env.UYOU_VERSION }}_iphoneos-arm.deb" --output "./main/Tweaks/uYou/com.miro.uyou_${{ env.UYOU_VERSION }}_iphoneos-arm.deb"
+          wget "$YOUTUBE_URL" --no-verbose -O ./main/YouTube.ipa
+          dpkg-deb -x "./main/Tweaks/uYou/com.miro.uyou_${{ env.UYOU_VERSION }}_iphoneos-arm.deb" ./main/Tweaks/uYou/
+          unzip -q ./main/YouTube.ipa -d ./main/tmp
+          rm -rf ./main/tmp/Payload/YouTube.app/PlugIns/*
+          cp -R ./main/Extensions/*.appex ./main/tmp/Payload/YouTube.app/PlugIns
+
+        env:
+          THEOS: ${{ github.workspace }}/theos
+          UYOU_VERSION: ${{ inputs.uyou_version }}
+          YOUTUBE_URL: ${{ inputs.decrypted_youtube_url }}
+
+      - name: Fix compiling && Build Package
+        id: build_package
+        run: |
+          cd ${{ github.workspace }}/main
+          (cd ${{ github.workspace }}/main/Tweaks/YouPiP && sed -i '' "14s/$/ AVFoundation UIKit/" Makefile)
+          make package FINALPACKAGE=1
+          (mv "packages/$(ls -t packages | head -n1)" "packages/uYouPlus_${{ env.YOUTUBE_VERSION  }}_${{ env.UYOU_VERSION }}.ipa")
+          echo "::set-output name=package::$(ls -t packages | head -n1)"
+        env:
+          THEOS: ${{ github.workspace }}/theos
+          UYOU_VERSION: ${{ inputs.uyou_version }}
+          YOUTUBE_VERSION: ${{ inputs.youtube_version }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        env:
+          UYOU_VERSION: ${{ inputs.uyou_version }}
+          YOUTUBE_VERSION: ${{ inputs.youtube_version }}
+        with:
+          name: uYouPlus_${{ env.YOUTUBE_VERSION  }}_${{ env.UYOU_VERSION }}
+          path: ${{ github.workspace }}/main/packages/${{ steps.build_package.outputs.package }}
+          if-no-files-found: error
+
+      - name: Create Release
+        if: ${{ inputs.create_release }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UYOU_VERSION: ${{ inputs.uyou_version }}
+          YOUTUBE_VERSION: ${{ inputs.youtube_version }}
+        with:
+          tag_name: v${{ env.YOUTUBE_VERSION }}-${{ env.UYOU_VERSION }}-(${{ github.run_number }})
+          release_name: v${{ env.YOUTUBE_VERSION }}-${{ env.UYOU_VERSION }}-(${{ github.run_number }})
+          draft: true
+          prerelease: false
+
+      - name: Upload Release Asset
+        if: ${{ inputs.create_release }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UYOU_VERSION: ${{ inputs.uyou_version }}
+          YOUTUBE_VERSION: ${{ inputs.youtube_version }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/main/packages/${{ steps.build_package.outputs.package }}
+          asset_name: uYouPlus_${{ env.YOUTUBE_VERSION  }}_${{ env.UYOU_VERSION }}.ipa
+          asset_content_type: application/vnd.debian.binary-package
