@@ -1,0 +1,4 @@
+[submodule "Extensions"]
+       	path = Extensions
+       	url = https://github.com/CokePokes/YoutubeExtensions.git
+       	branch = main
