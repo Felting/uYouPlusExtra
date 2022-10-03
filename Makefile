@@ -15,3 +15,12 @@ uYou_FILES =
 uYou_IPA = ./tmp/Payload/YouTube.app
 uYou_FRAMEWORKS = UIKit Security
 uYou_CFLAGS = -fobjc-arc
+
+include $(THEOS)/makefiles/common.mk
+include $(THEOS_MAKE_PATH)/tweak.mk
+include $(THEOS_MAKE_PATH)/aggregate.mk
+
+before-package::
+        @echo -e "==> \033[1mMoving tweak's bundle to Resources/...\033[0m"
+        @mkdir -p Resources/Frameworks/Alderis.framework && find .theos/obj/install/Library/Frameworks/Alderis.framework -maxdepth 1 -type f -exec cp {} Resources/Frameworks/Alderis.framework/ \
+        @cp -R Tweaks/uYou/Library/Application\ Support/uYouBundle.bundle Resources/
