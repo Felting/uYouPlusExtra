@@ -62,7 +62,7 @@ jobs:
         env:
           cache-name: iOS-16.1-SDK
         with:
-          path: theos/iOS-SDKS/
+          path: theos/sdks/
           key: ${{ env.cache-name }}
       
       - name: Download iOS 16.1 SDK
