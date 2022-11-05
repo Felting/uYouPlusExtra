@@ -1,4 +1,4 @@
-TARGET = iphone:clang:15.5:14.0
+TARGET = iphone:clang:16.1:14.0
 uYouPlus_USE_FLEX = 0
 uYouPlus_USE_FISHHOOK = 0
 ARCHS = arm64
