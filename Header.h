@@ -7,7 +7,13 @@
 #define UNSUPPORTED_DEVICES @[@"iPhone14,3", @"iPhone14,6", @"iPhone14,8"] // DontEatMycontent
 #define THRESHOLD 1.99 // DontEatMycontent
 #define DEFAULT_RATE 2.0f // YTSpeed
-#define NS_FORMAT_ARGUMENT(A) __attribute__ ((format_arg(A))) // iOS 16 SDK
+
+#define NS_FORMAT_ARGUMENT(A) // iOS 16 SDK
+#ifdef M_PI
+#error Macro M_PI must not be defined
+#else
+#define M_PI my_value_here
+#endif
 
 // IAmYouTube
 @interface SSOConfiguration : NSObject
