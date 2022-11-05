@@ -8,8 +8,6 @@
 #define THRESHOLD 1.99 // DontEatMycontent
 #define DEFAULT_RATE 2.0f // YTSpeed
 
-#define NS_FORMAT_ARGUMENT(A) -w // iOS 16 SDK
-
 // IAmYouTube
 @interface SSOConfiguration : NSObject
 @end
