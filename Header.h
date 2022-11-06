@@ -9,10 +9,8 @@
 #define DEFAULT_RATE 2.0f // YTSpeed
 
 // iOS 16.X SDK
-@class NSString : NSObject
 + (instancetype)stringWithCString:(const char *)cString 
                          encoding:(NSStringEncoding)enc;
-@end
 
 // IAmYouTube
 @interface SSOConfiguration : NSObject
