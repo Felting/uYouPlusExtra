@@ -301,9 +301,9 @@ BOOL GreenUI () {
 %end
 
 // YTNoCheckLocalNetwork: https://poomsmart.github.io/repo/depictions/ytnochecklocalnetwork.html
-%hook YTHotConfig
-- (BOOL)isPromptForLocalNetworkPermissionsEnabled { return NO; }
-%end
+// %hook YTHotConfig
+// - (BOOL)isPromptForLocalNetworkPermissionsEnabled { return NO; }
+// %end
 
 // A/B flags
 %hook YTColdConfig 
@@ -696,6 +696,16 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 }
 %end
 
+// Sub menu?
+%hook ELMView
+- (void)didMoveToWindow {
+    %orig;
+    if (isDarkMode()) {
+        self.subviews[0].backgroundColor = [UIColor blackColor];
+    }
+}
+%end
+
 // iSponsorBlock
 %hook SponsorBlockSettingsController
 - (void)viewDidLoad {
@@ -1055,7 +1065,6 @@ NSLayoutConstraint *widthConstraint, *heightConstraint, *centerXConstraint, *cen
     %orig(pinchGestureRecognizer);
 }
 %end
-
 %end // gDontEatMyContent
 
 // DontEatMycontent - detecting device model
