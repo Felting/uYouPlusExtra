@@ -4,6 +4,7 @@
 #import <dlfcn.h>
 #import <sys/utsname.h>
 #import <substrate.h>
+#include <IOSurface/IOSurfaceRef.h>
 #import "Header.h"
 #import "Tweaks/YouTubeHeader/YTVideoQualitySwitchOriginalController.h"
 #import "Tweaks/YouTubeHeader/YTPlayerViewController.h"
