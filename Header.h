@@ -8,10 +8,6 @@
 #define THRESHOLD 1.99 // DontEatMycontent
 #define DEFAULT_RATE 2.0f // YTSpeed
 
-// iOS 16.X SDK
-+ (instancetype)stringWithCString:(const char *)cString 
-                         encoding:(NSStringEncoding)enc;
-
 // IAmYouTube
 @interface SSOConfiguration : NSObject
 @end
