@@ -34,8 +34,7 @@ jobs:
       # Run the action against code base #
       ####################################
       - name: run action
-
-        id: setup
+        id: run_action
          run: |
           if ! [[ -z "${{ secrets.GO_TOKEN }}" ]]; then
              echo ::set-output has_token=true
