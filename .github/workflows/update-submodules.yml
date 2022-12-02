@@ -1,4 +1,3 @@
----
 name: Update submodules!
 
 #############################
@@ -41,7 +40,6 @@ jobs:
           else
              echo ::set-output has_token=false
           fi
-
         uses: qnblackcat/github-action-create-pr-parent-submodule@main
         with:
           github_token: ${{ secrets.RELEASE_HUB_SECRET }}
