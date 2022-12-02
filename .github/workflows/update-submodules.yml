@@ -34,7 +34,15 @@ jobs:
       # Run the action against code base #
       ####################################
       - name: run action
-        id: run_action
+
+        id: setup
+         run: |
+          if ! [[ -z "${{ secrets.GO_TOKEN }}" ]]; then
+             echo ::set-output has_token=true
+          else
+             echo ::set-output has_token=false
+          fi
+
         uses: qnblackcat/github-action-create-pr-parent-submodule@main
         with:
           github_token: ${{ secrets.RELEASE_HUB_SECRET }}
