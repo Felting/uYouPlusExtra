@@ -1340,4 +1340,31 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
     if (![allKeys containsObject:@"uYouPiPButtonVideoControlsOverlay"]) { 
        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"uYouPiPButtonVideoControlsOverlay"]; 
     }
+    // YTNoModernUI - arichorn
+	%hook YTColdConfig
+	// Disable Modern Content - YTNoModernUI
+	- (BOOL)creatorClientConfigEnableStudioModernizedMdeThumbnailPickerForClient { return NO; }
+	- (BOOL)cxClientEnableModernizedActionSheet { return NO; }
+	- (BOOL)enableClientShortsSheetsModernization { return NO; }
+	- (BOOL)enableTimestampModernizationForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableRoundedThumbnailsForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableRoundedThumbnailsForNativeLongTail { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableRoundedTimestampForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableRoundedDialogForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableModernButtonsForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableModernButtonsForNativeLongTail { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigEnableModernTabsForNative { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigIosEnableSnackbarModernization { return NO; }
+	- (BOOL)mainAppCoreClientIosEnableModernOssPage { return NO; }
+	// Disable Darker Dark Mode - YTNoModernUI
+	- (BOOL)enableDarkerDarkMode { return NO; }
+	- (BOOL)modernizeElementsTextColor { return NO; }
+	- (BOOL)modernizeElementsBgColor { return NO; }
+	- (BOOL)modernizeCollectionLockups { return NO; }
+	- (BOOL)uiSystemsClientGlobalConfigUseDarkerPaletteTextColorForNative { return NO; }
+	// 16.42.3 Styled YouTube Channel Page Interface - YTNoModernUI
+	- (BOOL)channelsClientConfigIosChannelNavRestructuring { return NO; }
+	%end
+	}
 }
+
