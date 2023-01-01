@@ -1201,10 +1201,6 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 - (BOOL)channelsClientConfigIosChannelNavRestructuring { return NO; }
 %end
 
-Total: 3
-YTColdConfig.iosDownloadsPageRoundedThumbs: 0
-YTColdConfig.iosEnableRoundedSearchBar: 0
-
 // Old dark theme (gray)
 %group gOldDarkTheme
 %hook YTColdConfig
