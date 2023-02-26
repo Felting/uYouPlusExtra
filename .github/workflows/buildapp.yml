@@ -100,7 +100,7 @@ jobs:
       - name: Download uYou, Reborn & Prepare YouTube iPA
         run: |
           curl "https://raw.githubusercontent.com/Muirey03/RemoteLog/master/RemoteLog.h" --output "$THEOS/include/RemoteLog.h"
-          curl "https://github.com/LillieH1000/YouTube-Reborn/releases/download/4.0.9/YouTube.Reborn.v4.0.9.deb" --output "main/Tweaks/Reborn/YouTube.Reborn.v4.0.9.deb" -e "==> \033[1mReborn v$4.0.9 downloaded! \033[0m"
+          curl "https://dl.dropboxusercontent.com/s/8xv1vota8elfoml/YouTube.Reborn.v4.0.9.deb" --output "main/Tweaks/Reborn/YouTube.Reborn.v4.0.9.deb" -e "==> \033[1mReborn v$4.0.9 downloaded! \033[0m"
           wget "$YOUTUBE_URL" --no-verbose -O main/YouTube.ipa && echo -e "==> \033[1mYouTube v${{ inputs.youtube_version }} downloaded! \033[0m"
           dpkg-deb -x "main/Tweaks/Reborn/YouTube.Reborn.v4.0.9.deb" main/Tweaks/Reborn/
           unzip -q main/YouTube.ipa -d main/tmp
