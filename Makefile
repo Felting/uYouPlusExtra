@@ -1,61 +1,22 @@
-export TARGET = iphone:clang:15.5:14.0
-export ARCHS = arm64
-
-ifneq ($(JAILBROKEN),1)
-export DEBUGFLAG = -ggdb -Wno-unused-command-line-argument -L$(THEOS_OBJ_DIR) -F$(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install/Library/Frameworks
+TARGET = iphone:clang:15.5:14.0
+ARCHS = arm64
 MODULES = jailed
-endif
+FINALPACKAGE = 1
+CODESIGN_IPA = 0
 
-ifndef YOUTUBE_VERSION
-YOUTUBE_VERSION = 18.22.9
-endif
-ifndef UYOU_VERSION
-UYOU_VERSION = 2.1
-endif
-PACKAGE_VERSION = $(YOUTUBE_VERSION)-$(UYOU_VERSION)
-
-INSTALL_TARGET_PROCESSES = YouTube
-TWEAK_NAME = uYouPlus
+TWEAK_NAME = uYou
 DISPLAY_NAME = YouTube
 BUNDLE_ID = com.google.ios.youtube
 
-$(TWEAK_NAME)_FRAMEWORKS = UIKit Security
-$(TWEAK_NAME)_EMBED_EXTENSIONS = $(wildcard Extensions/*.appex)
+uYouPlus_INJECT_DYLIBS = Tweaks/uYou/Library/MobileSubstrate/DynamicLibraries/uYou.dylib
+uYouPlus_IPA = tmp/Payload/YouTube.app
+uYouPlus_FRAMEWORKS = UIKit Security
 
 include $(THEOS)/makefiles/common.mk
-ifneq ($(JAILBROKEN),1)
-include $(THEOS_MAKE_PATH)/aggregate.mk
-endif
 include $(THEOS_MAKE_PATH)/tweak.mk
+include $(THEOS_MAKE_PATH)/aggregate.mk
 
-REMOVE_EXTENSIONS = 1
-CODESIGN_IPA = 0
-
-UYOU_PATH = Tweaks/uYou
-UYOU_DEB = $(UYOU_PATH)/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb
-UYOU_DYLIB = $(UYOU_PATH)/Library/MobileSubstrate/DynamicLibraries/uYou.dylib
-UYOU_BUNDLE = $(UYOU_PATH)/Library/Application\ Support/uYouBundle.bundle
-
-internal-clean::
-	@rm -rf $(UYOU_PATH)/*
-
-ifneq ($(JAILBROKEN),1)
-before-all::
-	@if [[ ! -f $(UYOU_DEB) ]]; then \
-		rm -rf $(UYOU_PATH)/*; \
-		$(PRINT_FORMAT_BLUE) "Downloading uYou"; \
-	fi
-before-all::
-	@if [[ ! -f $(UYOU_DEB) ]]; then \
- 		curl -s https://miro92.com/repo/debs/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -o $(UYOU_DEB); \
- 	fi; \
-	if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
-		tar -xf Tweaks/uYou/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -C Tweaks/uYou; tar -xf Tweaks/uYou/data.tar* -C Tweaks/uYou; \
-		if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
-			$(PRINT_FORMAT_ERROR) "Failed to extract uYou"; exit 1; \
-		fi; \
-	fi;
-else
 before-package::
-	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support; cp -r lang/uYouPlus.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
-endif
+	@echo -e "==> \033[1mMoving tweak's bundle to Resources/...\033[0m"
+	@cp -R Tweaks/uYou/Library/Application\ Support/uYouBundle.bundle Resources/
+	@echo -e "==> \033[1mChanging the installation path of dylibs...\033[0m"
