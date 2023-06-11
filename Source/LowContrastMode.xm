@@ -38,7 +38,7 @@ static BOOL pinkContrastMode() {
     return IsEnabled(@"lowContrastMode_enabled") && colorContrastMode() == 8;
 }
 
-%group gLowContrastMode // Low Contrast Mode v1.3.0 (Compatible with only v15.02.1-present)
+%group gLowContrastMode // Low Contrast Mode v1.3.1 (Compatible with only v15.02.1-present)
 %hook UIColor
 + (UIColor *)whiteColor { // Dark Theme Color
          return [UIColor colorWithRed: 0.56 green: 0.56 blue: 0.56 alpha: 1.00];
@@ -260,8 +260,27 @@ static BOOL pinkContrastMode() {
 %end
 
 %hook _ASDisplayView
-- (UIColor *)textColor {
-         return [UIColor whiteColor];
+- (void)setAttributedText:(NSAttributedString *)attributedText {
+    %orig;
+
+    if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")]) { // Video Player (Description)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")]) { // Video Player (Like Video)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")]) { // Video Player (Dislike Video)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")]) { // Video Player (Share Video)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")]) { // Video Player (Download Video)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")]) { // Video Player (Comment Teaser)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")]) { // Comments (Comment Section)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")]) { // Comments (Like Comment)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")]) { // Comments (Dislike Comment)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")]) { // Comments (Reply Comment)
+    if ([self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")]) { // Comments (Essential)
+    if ([self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) { // Chip Bar (Primary)
+        UIColor *newColor = [UIColor whiteColor];
+        NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
+        NSRange range = NSMakeRange(0, [newAttributedText length]);
+        [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
+        [self setAttributedText:newAttributedText];
+    }
 }
 %end
 %end
