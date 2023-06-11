@@ -27,8 +27,8 @@
 #import "Tweaks/YouTubeHeader/YTAlertView.h"
 #import "Tweaks/YouTubeHeader/YTISectionListRenderer.h"
 #import "Tweaks/YouTubeHeader/YTPivotBarItemView.h"
-#import "Tweaks/YouTubeHeader/ELMContainerNode.h"
-#import "Tweaks/YouTubeHeader/ELMTextNode.h"
+#import "Tweaks/YouTubeHeader/ELMContainerNode.h" // LowContrastMode
+#import "Tweaks/YouTubeHeader/ELMTextNode.h" // LowContrastMode
 
 #define LOC(x) [tweakBundle localizedStringForKey:x value:nil table:nil]
 #define YT_BUNDLE_ID @"com.google.ios.youtube"
