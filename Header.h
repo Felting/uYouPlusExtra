@@ -40,6 +40,17 @@
 @interface SSOConfiguration : NSObject
 @end
 
+// LowContrastMode
+@interface _ASDisplayView (AttributedString)
+- (void)setAttributedString:(NSAttributedString *)attributedString;
+@end
+
+@implementation _ASDisplayView (AttributedString)
+- (void)setAttributedString:(NSAttributedString *)attributedString {
+    self.textNode.attributedText = attributedString;
+}
+@end
+
 // uYouPlus
 @interface YTChipCloudCell : UIView
 @end
