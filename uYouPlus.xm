@@ -1274,9 +1274,6 @@ BOOL areColorsEqual(UIColor *color1, UIColor *color2, CGFloat tolerance) {
     if (IsEnabled(@"bigYTMiniPlayer_enabled") && (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad)) {
         %init(Main);
     }
-    if (IsEnabled(@"dontEatMyContent_enabled") && DEMC_deviceIsSupported()) {
-        %init(gDontEatMyContent);
-    }
     if (IsEnabled(@"hidePreviousAndNextButton_enabled")) {
         %init(gHidePreviousAndNextButton);
     }
