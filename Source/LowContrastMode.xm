@@ -145,9 +145,32 @@ static BOOL pinkContrastMode() {
 }
 %end
 
+//     if ([self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")]) { // Comments (Comment Section)
+//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")]) { // Comments (Like Comment)
+//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")]) { // Comments (Dislike Comment)
+//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")]) { // Comments (Reply Comment)
+//     if ([self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")]) { // Comments (Essential)
+//     if ([self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) { // Chip Bar (Primary)
+//         UIColor *newColor = [UIColor whiteColor];
+//         NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
+//         NSRange range = NSMakeRange(0, [newAttributedText length]);
+//         [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
+//         [self setAttributedText:newAttributedText];
+//     }
+// }
+// %end
+
 %hook _ASDisplayView
-- (UIColor *)textColor {
-         return [UIColor whiteColor];
+- (void)setAttributedText:(NSAttributedString *)attributedText {
+    %orig;
+
+    if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")] || [self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")] || [self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")] || [self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) {
+        UIColor *newColor = [UIColor whiteColor]; // Use the color of your choice here
+        NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
+        NSRange range = NSMakeRange(0, [newAttributedText length]);
+        [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
+        [self setAttributedText:newAttributedText];
+    }
 }
 %end
 %end
@@ -256,45 +279,6 @@ static BOOL pinkContrastMode() {
 - (void)setTextColor:(UIColor *)textColor {
     textColor = [UIColor whiteColor];
     %orig(textColor);
-}
-%end
-
-// %hook _ASDisplayView
-// - (void)setAttributedText:(NSAttributedString *)attributedText {
-//     %orig;
-// 
-//     if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")]) {
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")]) {
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")]) { // Video Player (Dislike Video)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")]) { // Video Player (Share Video)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")]) { // Video Player (Download Video)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")]) { // Video Player (Comment Teaser)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")]) { // Comments (Comment Section)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")]) { // Comments (Like Comment)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")]) { // Comments (Dislike Comment)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")]) { // Comments (Reply Comment)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")]) { // Comments (Essential)
-//     if ([self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) { // Chip Bar (Primary)
-//         UIColor *newColor = [UIColor whiteColor];
-//         NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
-//         NSRange range = NSMakeRange(0, [newAttributedText length]);
-//         [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
-//         [self setAttributedText:newAttributedText];
-//     }
-// }
-// %end
-
-%hook _ASDisplayView
-- (void)setAttributedText:(NSAttributedString *)attributedText {
-    %orig;
-
-    if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")] || [self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")] || [self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")] || [self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) {
-        UIColor *newColor = [UIColor whiteColor]; // Use the color of your choice here
-        NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
-        NSRange range = NSMakeRange(0, [newAttributedText length]);
-        [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
-        [self setAttributedText:newAttributedText];
-    }
 }
 %end
 %end
