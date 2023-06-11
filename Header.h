@@ -27,6 +27,7 @@
 #import "Tweaks/YouTubeHeader/YTAlertView.h"
 #import "Tweaks/YouTubeHeader/YTISectionListRenderer.h"
 #import "Tweaks/YouTubeHeader/YTPivotBarItemView.h"
+#import "Tweaks/YouTubeHeader/ASDisplayNode.h" // LowContrastMode
 #import "Tweaks/YouTubeHeader/ELMContainerNode.h" // LowContrastMode
 #import "Tweaks/YouTubeHeader/ELMTextNode.h" // LowContrastMode
 
