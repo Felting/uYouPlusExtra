@@ -259,6 +259,20 @@ static BOOL pinkContrastMode() {
 }
 %end
 
+%hook ELMTextNode
+- (void)setAttributedString:(NSAttributedString *)attributedString {
+    %orig;
+
+    if ([self.text isEqualToString:@"ELMContainerNode"]) {
+        UIColor *newColor = [UIColor whiteColor];
+        NSMutableAttributedString *newAttributedString = [attributedString mutableCopy];
+        NSRange range = NSMakeRange(0, [newAttributedString length]);
+        [newAttributedString addAttribute:NSForegroundColorAttributeName value:newColor range:range];
+        [self setAttributedString:newAttributedString];
+    }
+}
+%end
+
 %hook _ASDisplayView
 - (void)setAttributedText:(NSAttributedString *)attributedText {
     %orig;
