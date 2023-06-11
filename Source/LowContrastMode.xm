@@ -259,20 +259,6 @@ static BOOL pinkContrastMode() {
 }
 %end
 
-%hook ELMTextNode
-- (void)setAttributedString:(NSAttributedString *)attributedString {
-    %orig;
-
-    if ([self.text isEqualToString:@"ELMContainerNode"]) {
-        UIColor *newColor = [UIColor whiteColor];
-        NSMutableAttributedString *newAttributedString = [attributedString mutableCopy];
-        NSRange range = NSMakeRange(0, [newAttributedString length]);
-        [newAttributedString addAttribute:NSForegroundColorAttributeName value:newColor range:range];
-        [self setAttributedString:newAttributedString];
-    }
-}
-%end
-
 // %hook _ASDisplayView
 // - (void)setAttributedText:(NSAttributedString *)attributedText {
 //     %orig;
@@ -302,7 +288,7 @@ static BOOL pinkContrastMode() {
 - (void)setAttributedText:(NSAttributedString *)attributedText {
     %orig;
 
-    if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")] || [self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")] || [self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")] || [self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")] || [self.superview isKindOfClass:NSClassFromString(@"ELMContainerNode")]) {
+    if ([self.superview isKindOfClass:NSClassFromString(@"YTVideoInfoView")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.video.share.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.add_to.offline.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.comments_entry_point_teaser")] || [self.superview isKindOfClass:NSClassFromString(@"id.comment.content.label")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.like.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.dislike.button")] || [self.superview isKindOfClass:NSClassFromString(@"id.ui.reply.button")] || [self.superview isKindOfClass:NSClassFromString(@"YTExpandableTextView")] || [self.superview isKindOfClass:NSClassFromString(@"id.elements.components.chip.primary_tap_container")]) {
         UIColor *newColor = [UIColor whiteColor]; // Use the color of your choice here
         NSMutableAttributedString *newAttributedText = [attributedText mutableCopy];
         NSRange range = NSMakeRange(0, [newAttributedText length]);
