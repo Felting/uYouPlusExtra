@@ -252,13 +252,6 @@ static BOOL pinkContrastMode() {
 }
 %end
 
-%hook VideoTitleLabel
-- (void)setTextColor:(UIColor *)textColor {
-    textColor = [UIColor whiteColor];
-    %orig(textColor);
-}
-%end
-
 %hook ELMTextNode
 - (void)setAttributedString:(NSAttributedString *)attributedString {
     %orig;
@@ -295,6 +288,13 @@ static BOOL pinkContrastMode() {
         [newAttributedText addAttribute:NSForegroundColorAttributeName value:newColor range:range];
         [self setAttributedText:newAttributedText];
     }
+}
+%end
+
+%hook VideoTitleLabel
+- (void)setTextColor:(UIColor *)textColor {
+    textColor = [UIColor whiteColor];
+    %orig(textColor);
 }
 %end
 %end
